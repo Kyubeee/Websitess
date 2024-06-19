@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Two Numbers</title>
+    <title>Simple Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,25 +20,63 @@
     </style>
 </head>
 <body>
-    <h1>Add Two Numbers</h1>
+    <h1>Simple Calculator</h1>
     <form id="calcForm">
         <label for="num1">Number 1:</label>
         <input type="text" id="num1" name="num1"><br><br>
         <label for="num2">Number 2:</label>
         <input type="text" id="num2" name="num2"><br><br>
-        <button type="button" onclick="addNumbers()">Add</button>
+        <label for="operation">Operation:</label>
+        <select id="operation" name="operation">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+        </select><br><br>
+        <button type="button" onclick="calculate()">Calculate</button>
     </form>
     <div id="result" class="result"></div>
     <div id="gif" class="gif"></div>
 
     <script>
-        function addNumbers() {
-            var num1 = parseInt(document.getElementById('num1').value);
-            var num2 = parseInt(document.getElementById('num2').value);
-            var result = num1 + num2;
+        function calculate() {
+            var num1 = parseFloat(document.getElementById('num1').value);
+            var num2 = parseFloat(document.getElementById('num2').value);
+            var operation = document.getElementById('operation').value;
+            var result;
+            
+            if (isNaN(num1) || isNaN(num2)) {
+                document.getElementById('result').innerText = 'Please enter valid numbers';
+                document.getElementById('gif').innerHTML = '';
+                return;
+            }
+
+            switch (operation) {
+                case 'add':
+                    result = num1 + num2;
+                    break;
+                case 'subtract':
+                    result = num1 - num2;
+                    break;
+                case 'multiply':
+                    result = num1 * num2;
+                    break;
+                case 'divide':
+                    if (num2 === 0) {
+                        document.getElementById('result').innerText = 'Cannot divide by zero';
+                        document.getElementById('gif').innerHTML = '';
+                        return;
+                    }
+                    result = num1 / num2;
+                    break;
+                default:
+                    document.getElementById('result').innerText = 'Invalid operation';
+                    return;
+            }
+
             document.getElementById('result').innerText = 'Result: ' + result;
 
-            if (num1 === 9 && num2 === 11) {
+            if (operation === 'divide' && num1 === 9 && num2 === 11) {
                 document.getElementById('gif').innerHTML = '<img src="911.gif" alt="Special GIF">';
             } else {
                 document.getElementById('gif').innerHTML = '';
